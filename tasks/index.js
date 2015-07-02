@@ -1,6 +1,6 @@
 /*
  * 基于grunt的文本内容替换组件
- * https://github.com/lh2907883/art-reactor-build
+ * https://github.com/lh2907883/grunt-art-reactor
  *
  * Copyright (c) 2015-7-2 lihao
  * Licensed under the MIT.
@@ -31,8 +31,8 @@ module.exports = function(grunt) {
           var item = data[i];
           if(item){
             content += '//' + item.des + '\r';
-            content += '.ar-' + item.cls + ' {\r';
-            content += '\tcontent: "' + item.cont + '";\r';
+            content += '.ar-' + item.cls + ':after {\r';
+            content += '\tcontent: "\\' + item.cont + '";\r';
             content += '}\r';
           }
         }
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         var content = grunt.file.read(f.src[0]);
         content = content.replace(/[\s]/gm, "");
         var tr = /<tr>[\S]+?<\/tr>/ig;
-        var td = /^<tr>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<\/tr>$/i;
+        var td = /^<tr>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>[$]([^<\/>]+)<\/td>[^<>]*<\/tr>$/i;
         var ms = content.match(tr);
         if(ms){
           var res = ms.map(function(item){
