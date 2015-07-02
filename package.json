@@ -1,6 +1,6 @@
 {
   "name": "grunt-art-reactor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "grunt-art-reactor 字体构建工具",
   "main": "tasks/index.js",
   "scripts": {
