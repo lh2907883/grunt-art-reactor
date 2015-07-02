@@ -29,12 +29,15 @@ module.exports = function(grunt) {
         var content = "";
         for(var i=0; i<data.length; i++){
           var item = data[i];
-          content += '//' + item.des + '\r';
-          content += '.ar-' + item.cls + ' {\r';
-          content += '\tcontent: "' + item.cont + '";\r';
-          content += '}\r';
+          if(item){
+            content += '//' + item.des + '\r';
+            content += '.ar-' + item.cls + ' {\r';
+            content += '\tcontent: "' + item.cont + '";\r';
+            content += '}\r';
+          }
         }
         grunt.file.write(file, content);
+
       },
       json: function(file, data){
         grunt.file.write(file, JSON.stringify(data));
@@ -46,7 +49,7 @@ module.exports = function(grunt) {
         var content = grunt.file.read(f.src[0]);
         content = content.replace(/[\s]/gm, "");
         var tr = /<tr>[\S]+?<\/tr>/ig;
-        var td = /^<tr><td>([^<\/>]+)<\/td><td>([^<\/>]+)<\/td><td>([^<\/>]+)<\/td><\/tr>$/i;
+        var td = /^<tr>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<\/tr>$/i;
         var ms = content.match(tr);
         if(ms){
           var res = ms.map(function(item){
@@ -57,6 +60,9 @@ module.exports = function(grunt) {
                 cls: m[2],
                 cont: m[3]
               }
+            }
+            else{
+              grunt.log.error("忽略一个错误行! " + item);
             }
           });
           grunt.log.ok("找到" + res.length + "组匹配.");

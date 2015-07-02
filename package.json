@@ -1,19 +1,19 @@
 {
-  "name": "art-reactor-build",
-  "version": "1.0.0",
-  "description": "art-reactor 字体构建工具",
+  "name": "grunt-art-reactor",
+  "version": "1.0.1",
+  "description": "grunt-art-reactor 字体构建工具",
   "main": "tasks/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lh2907883/art-reactor-build.git"
+    "url": "git+https://github.com/lh2907883/grunt-art-reactor.git"
   },
   "author": "lihao",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lh2907883/art-reactor-build/issues"
+    "url": "https://github.com/lh2907883/grunt-art-reactor/issues"
   },
-  "homepage": "https://github.com/lh2907883/art-reactor-build#readme"
+  "homepage": "https://github.com/lh2907883/grunt-art-reactor#readme"
 }
