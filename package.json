@@ -1,0 +1,19 @@
+{
+  "name": "art-reactor-build",
+  "version": "1.0.0",
+  "description": "art-reactor 字体构建工具",
+  "main": "tasks/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lh2907883/art-reactor-build.git"
+  },
+  "author": "lihao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lh2907883/art-reactor-build/issues"
+  },
+  "homepage": "https://github.com/lh2907883/art-reactor-build#readme"
+}
