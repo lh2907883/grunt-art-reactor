@@ -28,12 +28,16 @@ module.exports = function(grunt) {
       less: function(file, data){
         var content = "";
         for(var i=0; i<data.length; i++){
-          var item = data[i];
-          if(item){
-            content += '//' + item.des + '\r';
-            content += '.ar-' + item.cls + ':after {\r';
-            content += '\tcontent: "\\' + item.cont + '";\r';
-            content += '}\r';
+          var group = data[i];
+          if(group){
+            content += '//----------' + group.title + '----------\r';
+            for(var j=0; j<group.data.length; j++){
+              var item = group.data[j];
+              content += '//' + item.des + '\r';
+              content += '.ar-' + item.cls + ':after {\r';
+              content += '\tcontent: "\\' + item.cont + '";\r';
+              content += '}\r';
+            }
           }
         }
         grunt.file.write(file, content);
@@ -48,31 +52,66 @@ module.exports = function(grunt) {
       if(f.src.length > 0){
         var content = grunt.file.read(f.src[0]);
         content = content.replace(/[\s]/gm, "");
+        var table = /(###[^<]*)?<table>[\S]+?<\/table>/ig;
+        var title = /###([^#<]+)/;
         var tr = /<tr>[\S]+?<\/tr>/ig;
         var td = /^<tr>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>([^<\/>]+)<\/td>[^<>]*<td>[$]([^<\/>]+)<\/td>[^<>]*<\/tr>$/i;
-        var ms = content.match(tr);
-        if(ms){
-          var res = ms.map(function(item){
-            var m = item.match(td);
-            if(m){
-              return {
-                des: m[1],
-                cls: m[2],
-                cont: m[3]
-              }
-            }
-            else{
-              grunt.log.error("忽略一个错误行! " + item);
+
+        var ms0 = content.match(table);
+        if(ms0){
+          var res = ms0.map(function(tb){
+            // grunt.log.error(tb);
+            var mt = tb.match(title);
+            var oTable = {
+              title: mt ? mt[1] : ''
+            };
+            var ms = tb.match(tr);
+            if(ms){
+              oTable.data = ms.map(function(item){
+                var m = item.match(td);
+                if(m){
+                  return {
+                    des: m[1],
+                    cls: m[2],
+                    cont: m[3]
+                  }
+                }
+                else{
+                  grunt.log.error("忽略一个错误行! " + item);
+                }
+              });
+              return oTable
             }
           });
-          grunt.log.ok("找到" + res.length + "组匹配.");
-          if(generate[outputType]){
-            generate[outputType](f.dest, res)
-          }         
+          grunt.log.oklns(JSON.stringify(res));
         }
-        else{
-          grunt.log.error("一个Tr都没有找到,搞毛线?");
+        if(generate[outputType]){
+          generate[outputType](f.dest, res)
         }
+
+        // var ms = content.match(tr);
+        // if(ms){
+        //   var res = ms.map(function(item){
+        //     var m = item.match(td);
+        //     if(m){
+        //       return {
+        //         des: m[1],
+        //         cls: m[2],
+        //         cont: m[3]
+        //       }
+        //     }
+        //     else{
+        //       grunt.log.error("忽略一个错误行! " + item);
+        //     }
+        //   });
+        //   grunt.log.ok("找到" + res.length + "组匹配.");
+        //   if(generate[outputType]){
+        //     generate[outputType](f.dest, res)
+        //   }         
+        // }
+        // else{
+        //   grunt.log.error("一个Tr都没有找到,搞毛线?");
+        // }
       }
     });
   });
