@@ -83,7 +83,7 @@ module.exports = function(grunt) {
               return oTable
             }
           });
-          grunt.log.oklns(JSON.stringify(res));
+          // grunt.log.oklns(JSON.stringify(res));
         }
         if(generate[outputType]){
           generate[outputType](f.dest, res)
